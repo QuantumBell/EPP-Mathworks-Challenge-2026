@@ -1,0 +1,24 @@
+image = imread("MPDD\bracket_black\train\good\000.png");
+standsize = [1080 1080]
+imshow(image)
+resizedImage = imresize(image, standsize);
+imshowpair(resizedImage, image, "montage")
+grayimage = rgb2gray(resizedImage);
+imshow (grayimage)
+
+mask = imbinarize(grayimage, 0.3); % creates a mask, this will check
+% every pixel that is at the threshold, if its darker than 0.3, turns
+% black, otherwise, turns bright! Perfect for this because our bracket
+% is very dark compared to the bg!!
+
+imgFlat = imflatfield(grayimage, 30, mask);
+imgContrast = adapthisteq(imgFlat, "NumTiles", [40 40]);
+imshow (imgFlat)
+imshow(imgContrast)
+
+bgBrightness = mean(imgFlat(mask == 1)); 
+
+imgFinal = imgContrast;
+imgFinal(mask == 1) = bgBrightness; % wipes creases
+
+imshow(imgFinal);
