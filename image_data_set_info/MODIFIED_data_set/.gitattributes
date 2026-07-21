@@ -1,1 +1,2 @@
 mvtec_anomaly_detection_USED.zip filter=lfs diff=lfs merge=lfs -text
+mvetc_anomaly_detection_USED_v2.zip filter=lfs diff=lfs merge=lfs -text
