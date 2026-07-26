@@ -1,0 +1,38 @@
+%%%%% This code has only been tested on glue, it works using mean & std while also using regionprops in order to measure area%%%
+%% Instead of focusing on the glue itself, I've focused on the holes instead, all holes will generally maintain the same range of area
+%% however in a defect, one of these areas will be an outlier.
+
+folder = "C:\Users\basil\OneDrive\Desktop\MATLAB project folder\mvtec_anomaly_detection_USED_v3\grid\FAIL\glue";
+
+filePath = fullfile(folder, "005.png");
+
+rawImg = imread(filePath);
+
+binarizedimage = imbinarize(rawImg);
+
+se = strel('disk', 12);
+closedse = strel('disk', 3);
+
+openimage = imopen(binarizedimage, se);
+filledimage = imfill(openimage, "holes");
+closedimage = imclose(filledimage,closedse);
+finalImg = imfill(closedimage, "holes");
+holes = imclearborder(finalImg);
+imshow(holes)
+
+CC = bwconncomp(holes);
+stats = regionprops("table", CC, "Area", "BoundingBox");
+
+area = stats.Area;
+bbox = stats.BoundingBox;
+medArea = median(area);
+stdArea = std(area);
+areaCutoff = medArea - (2.5 * stdArea);
+selection = (area < areaCutoff);
+BW2 = cc2bw (CC, ObjectsToKeep = selection);
+
+imshowpair (BW2, rawImg, "montage")
+
+
+%%imshowpair (finalImg, rawImg, "montage");
+
