@@ -1,0 +1,162 @@
+clear;
+clc;
+close all;
+
+% -------------------------------------------------------------------- HAZELNUT --------------------------------------------------------------------------------------
+
+% NOTE: hz = hazelnut
+
+hzFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v3\hazelnut";
+
+hz_failFolder = fullfile(hzFolder, "FAIL");
+
+% Select one crack image and one hole image.
+hz_crackFolder = fullfile(hz_failFolder, "crack");
+hz_holeFolder = fullfile(hz_failFolder, "hole");
+
+hz_crackImds = imageDatastore(hz_crackFolder);
+hz_holeImds = imageDatastore(hz_holeFolder);
+
+% Read one image from each defect folder.
+hz_crackImg = readimage(hz_crackImds, 18);
+hz_holeImg = readimage(hz_holeImds, 15);
+
+% Apply the same single-image inspection function to both defects.
+[hz_crackMask, crackEvidence, hz_crackROI, hz_crackROIRGB, hz_crackOverlay] = inspectHazelnut(hz_crackImg);
+[hz_holeMask, holeEvidence, hz_holeROI, hz_holeROIRGB, hz_holeOverlay] = inspectHazelnut(hz_holeImg);
+
+% Crack mask.
+figure;
+imshowpair(hz_crackROI, hz_crackMask, "montage");
+title("Hazelnut Crack: Image vs. Evidence Mask");
+
+% Crack overlay.
+figure;
+imshowpair(hz_crackROIRGB, hz_crackOverlay, "montage");
+title("Hazelnut Crack: ROI vs. Red Evidence Overlay");
+
+% Hole mask.
+figure;
+imshowpair(hz_holeROI, hz_holeMask, "montage");
+title("Hazelnut Hole: Image vs. Evidence Mask");
+
+% Hole overlay.
+figure;
+imshowpair(hz_holeROIRGB, hz_holeOverlay, "montage");
+title("Hazelnut Hole: ROI vs. Red Evidence Overlay");
+
+fprintf("\nHazelnut crack metrics:\n");
+fprintf("Number of suspicious regions: %d\n", crackEvidence.numComponents);
+fprintf("Size of largest suspicious region: %d pixels\n", crackEvidence.maxArea);
+fprintf("Area ratio: %.4f\n", crackEvidence.areaRatio);
+
+fprintf("\nHazelnut hole metrics:\n");
+fprintf("Number of suspicious regions: %d\n", holeEvidence.numComponents);
+fprintf("Size of largest suspicious region: %d pixels\n", holeEvidence.maxArea);
+fprintf("Area ratio: %.4f\n", holeEvidence.areaRatio);
+
+% -------------------------------------------------------------------- BOTTLE --------------------------------------------------------------------------------------
+
+% NOTE: bo = bottle
+
+boFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v3\bottle";
+
+bo_failFolder = fullfile(boFolder, "FAIL");
+
+% Select one broken_large image and one broken_small image.
+bo_brokenLargeFolder = fullfile(bo_failFolder, "broken_large");
+bo_brokenSmallFolder = fullfile(bo_failFolder, "broken_small");
+
+bo_largeImds = imageDatastore(bo_brokenLargeFolder);
+bo_smallImds = imageDatastore(bo_brokenSmallFolder);
+
+% Read one image from each defect folder.
+bo_largeImg = readimage(bo_largeImds, 7);
+bo_smallImg = readimage(bo_smallImds, 7);
+
+% Apply the same bottle inspection function to both defects.
+[bo_largeMask, bo_largeEvidence, bo_largeROI, bo_largeROIRGB, bo_largeOverlay] = inspectBottle(bo_largeImg);
+[bo_smallMask, bo_smallEvidence, bo_smallROI, bo_smallROIRGB, bo_smallOverlay] = inspectBottle(bo_smallImg);
+
+% Broken_large mask.
+figure;
+imshowpair(bo_largeROIRGB, bo_largeMask, "montage");
+title("Bottle Broken Large: Image vs. Evidence Mask");
+
+% Broken_large overlay.
+figure;
+imshowpair(bo_largeROIRGB, bo_largeOverlay, "montage");
+title("Bottle Broken Large: ROI vs. Red Evidence Overlay");
+
+% Broken_small mask.
+figure;
+imshowpair(bo_smallROIRGB, bo_smallMask, "montage");
+title("Bottle Broken Small: Image vs. Evidence Mask");
+
+% Broken_small overlay.
+figure;
+imshowpair(bo_smallROIRGB, bo_smallOverlay, "montage");
+title("Bottle Broken Small: ROI vs. Red Evidence Overlay");
+
+fprintf("\nBottle broken_large metrics:\n");
+fprintf("Number of suspicious regions: %d\n", bo_largeEvidence.numComponents);
+fprintf("Size of largest suspicious region: %d pixels\n", bo_largeEvidence.maxArea);
+fprintf("Area ratio: %.4f\n", bo_largeEvidence.areaRatio);
+
+fprintf("\nBottle broken_small metrics:\n");
+fprintf("Number of suspicious regions: %d\n", bo_smallEvidence.numComponents);
+fprintf("Size of largest suspicious region: %d pixels\n", bo_smallEvidence.maxArea);
+fprintf("Area ratio: %.4f\n", bo_smallEvidence.areaRatio);
+
+% -------------------------------------------------------------------- WOOD --------------------------------------------------------------------------------------
+
+% NOTE: wo = wood
+
+woFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v3\wood";
+
+wo_failFolder = fullfile(woFolder, "FAIL");
+
+% Select one hole image and one liquid image.
+wo_holeFolder = fullfile(wo_failFolder, "hole");
+wo_liquidFolder = fullfile(wo_failFolder, "liquid");
+
+wo_holeImds = imageDatastore(wo_holeFolder);
+wo_liquidImds = imageDatastore(wo_liquidFolder);
+
+% Read one image from each defect folder.
+wo_holeImg = readimage(wo_holeImds, 10);
+wo_liquidImg = readimage(wo_liquidImds, 10);
+
+% Apply the same bottle inspection function to both defects.
+[wo_holeMask, wo_holeEvidence, wo_holeROI, wo_holeROIRGB, wo_holeOverlay] = inspectWood(wo_holeImg);
+[wo_liquidMask, wo_liquidEvidence, wo_liquidROI, wo_liquidROIRGB, wo_liquidOverlay] = inspectWood(wo_liquidImg);
+
+% Hole mask.
+figure;
+imshowpair(wo_holeROIRGB, wo_holeMask, "montage");
+title("Wood Hole: Image vs. Evidence Mask");
+
+% Hole overlay.
+figure;
+imshowpair(wo_holeROIRGB, wo_holeOverlay, "montage");
+title("Wood Hole: ROI vs. Red Evidence Overlay");
+
+% Liquid mask.
+figure;
+imshowpair(wo_liquidROIRGB, wo_liquidMask, "montage");
+title("Wood Liquid: Image vs. Evidence Mask");
+
+% Liquid overlay.
+figure;
+imshowpair(wo_liquidROIRGB, wo_liquidOverlay, "montage");
+title("Wood Liquid: ROI vs. Red Evidence Overlay");
+
+fprintf("\nWood hole metrics:\n");
+fprintf("Number of suspicious regions: %d\n", wo_holeEvidence.numComponents);
+fprintf("Size of largest suspicious region: %d pixels\n", wo_holeEvidence.maxArea);
+fprintf("Area ratio: %.4f\n", wo_holeEvidence.areaRatio);
+
+fprintf("\nWood liquid metrics:\n");
+fprintf("Number of suspicious regions: %d\n", wo_liquidEvidence.numComponents);
+fprintf("Size of largest suspicious region: %d pixels\n", wo_liquidEvidence.maxArea);
+fprintf("Area ratio: %.4f\n", wo_liquidEvidence.areaRatio);
