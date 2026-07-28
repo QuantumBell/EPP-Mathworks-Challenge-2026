@@ -15,3 +15,4 @@
 7/23/26: Cancel ending week meeting as team was unprepared and not finished working on assigned tasks
 <br>
 7/27/26: Show off semi-finished tasks, discuss methodology for multi-system implementation (classifier and single-image inspection function). Reassign team member (Alexis) to new assignment (testing script) based on team vote.
+7/28/26: Upload team agreement
