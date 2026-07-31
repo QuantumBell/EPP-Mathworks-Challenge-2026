@@ -1,4 +1,4 @@
-function [hz_maskEvidence, evidence, hz_roi, hz_roiRGB, hz_overlay] = inspectHazelnut(hz_img)
+function [hz_maskEvidence, evidence, hz_roi, hz_roiRGB, hz_overlay] = inspectHazelnut(hz_img, defectType)
 
 % NOTE: hz = hazelnut
 % This function inspects one hazelnut image at a time.
@@ -31,22 +31,61 @@ hz_roiRGB = imcrop(hz_standard, roiPosition);
 
 % ---------- STEP 4 - SEGMENT THE IMAGE ----------
 
-% Designed for dark crack and hole defects.
-T = adaptthresh(hz_roi, 0.40, "ForegroundPolarity", "dark");
+if defectType == "dark"
 
-hz_testMask = ~imbinarize(hz_roi, T);
+    % Designed for dark crack and hole defects.
+    T = adaptthresh(hz_roi, 0.40, "ForegroundPolarity", "dark");
 
-% Remove the hazelnut outer outline.
-hz_testMask = imclearborder(hz_testMask);
+    hz_maskEvidence = ~imbinarize(hz_roi, T);
 
-% Remove small pieces of normal texture.
-hz_testMask = bwareaopen(hz_testMask, 25);
+    % Remove the hazelnut outer outline.
+    hz_maskEvidence = imclearborder(hz_maskEvidence);
 
-% Connect small gaps in the defect.
-hz_testMask = imclose(hz_testMask, strel("disk", 2));
+    % Remove small pieces of normal texture.
+    hz_maskEvidence = bwareaopen(hz_maskEvidence, 25);
+
+    % Connect small gaps in the defect.
+    hz_maskEvidence = imclose(hz_maskEvidence, strel("disk", 2));
+
+elseif defectType == "bright"
+
+    % Designed for bright cut and print defects.
+    T = adaptthresh(hz_roi, 0.45, "ForegroundPolarity", "bright");
+
+    hz_maskEvidence = imbinarize(hz_roi, T);
+
+    % Remove regions connected to the rectangular crop boundary.
+    %hz_maskEvidence = imclearborder(hz_maskEvidence);
+
+    % Remove small normal highlights and reflections.
+    %hz_maskEvidence = bwareaopen(hz_maskEvidence, 15);
+
+    % Connect small gaps in the defect.
+    %hz_maskEvidence = imclose(hz_maskEvidence, strel("disk", 2));
+
+    % Create a rough hazelnut mask.
+    hz_partMask = hz_roi > 45;
+    hz_partMask = bwareafilt(hz_partMask, 1);
+    hz_partMask = imfill(hz_partMask, "holes");
+
+    % Exclude the outer shell boundary.
+    hz_innerMask = imerode(hz_partMask, strel("disk", 8));
+
+    hz_maskEvidence = hz_maskEvidence & hz_innerMask;
+
+    % Remove small highlights.
+    hz_maskEvidence = bwareaopen(hz_maskEvidence, 15);
+
+    % Connect nearby evidence.
+    hz_maskEvidence = imclose(hz_maskEvidence, strel("disk", 2));
+
+else
+    error('defectType must be either "dark" or "bright".');
+
+end
 
 % Thicken the detected defect so it becomes a filled white region.
-hz_maskEvidence = imdilate(hz_testMask, strel("disk", 1));
+hz_maskEvidence = imdilate(hz_maskEvidence, strel("disk", 1));
 
 % ---------- CREATE RED EVIDENCE OVERLAY ----------
 
