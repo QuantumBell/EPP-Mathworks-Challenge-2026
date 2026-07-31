@@ -1,4 +1,4 @@
-function [wo_maskEvidence, evidence, wo_roi, wo_roiRGB, wo_overlay] = inspectWood(wo_img)
+function [wo_maskEvidence, evidence, wo_roi, wo_roiRGB, wo_overlay] = inspectWood(wo_img, defectType)
 
 % ---------- STEP 1 - STANDARDIZE THE IMAGE ----------
 
@@ -39,20 +39,39 @@ wo_L = mat2gray(wo_L);
 % --> reduces tiny wood-grain fluctuations and noise before thresholding.
 wo_L = imgaussfilt(wo_L, 0.5);
 
-% Detect regions darker than their local surroundings.
-T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "dark");
+if defectType == "dark"
 
-% Invert because darker pixels should become white evidence.
-wo_maskEvidence = ~imbinarize(wo_L, T);
+    % Detect regions darker than their local surroundings.
+    T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "dark");
 
-% Reduce long, thin vertical wood-grain responses.
-wo_maskEvidence = imopen(wo_maskEvidence, strel("line", 3, 0));
+    % Invert because darker pixels should become white evidence.
+    wo_maskEvidence = ~imbinarize(wo_L, T);
 
-% Remove very small regions.
-wo_maskEvidence = bwareaopen(wo_maskEvidence, 5);
+    % Reduce long, thin vertical wood-grain responses.
+    wo_maskEvidence = imopen(wo_maskEvidence, strel("line", 3, 0));
 
-% Connect nearby parts of the same defect.
-wo_maskEvidence = imclose(wo_maskEvidence, strel("disk", 2));
+    % Remove very small regions.
+    wo_maskEvidence = bwareaopen(wo_maskEvidence, 5);
+
+    % Connect nearby parts of the same defect.
+    wo_maskEvidence = imclose(wo_maskEvidence, strel("disk", 2));
+
+elseif defectType == "scratch"
+
+    % Detect bright scratch regions relative to their surroundings.
+    T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "bright");
+
+    wo_maskEvidence = imbinarize(wo_L, T);
+
+    % Remove small isolated responses.
+    wo_maskEvidence = bwareaopen(wo_maskEvidence, 10);
+
+    % Connect nearby scratch fragments.
+    wo_maskEvidence = imclose(wo_maskEvidence, strel("disk", 1));
+
+else
+    error('defectType must be either "dark" or "scratch".');
+end
 
 % ---------- CREATE RED EVIDENCE OVERLAY ----------
 
