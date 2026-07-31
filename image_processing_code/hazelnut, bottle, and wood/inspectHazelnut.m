@@ -54,15 +54,6 @@ elseif defectType == "bright"
 
     hz_maskEvidence = imbinarize(hz_roi, T);
 
-    % Remove regions connected to the rectangular crop boundary.
-    %hz_maskEvidence = imclearborder(hz_maskEvidence);
-
-    % Remove small normal highlights and reflections.
-    %hz_maskEvidence = bwareaopen(hz_maskEvidence, 15);
-
-    % Connect small gaps in the defect.
-    %hz_maskEvidence = imclose(hz_maskEvidence, strel("disk", 2));
-
     % Create a rough hazelnut mask.
     hz_partMask = hz_roi > 45;
     hz_partMask = bwareafilt(hz_partMask, 1);
