@@ -3,6 +3,9 @@ function [hz_maskEvidence, evidence, hz_roi, hz_roiRGB, hz_overlay] = inspectHaz
 % NOTE: hz = hazelnut
 % This function inspects one hazelnut image at a time.
 
+% Convert AI label to a string for the switch statement.
+defectType = lower(string(defectType));
+
 % ---------- STEP 1 - STANDARDIZE THE IMAGE ----------
 
 % Standardize image size so classical masks and metrics are consistent.
@@ -31,7 +34,9 @@ hz_roiRGB = imcrop(hz_standard, roiPosition);
 
 % ---------- STEP 4 - SEGMENT THE IMAGE ----------
 
-if defectType == "dark"
+switch defectType
+
+ case {"crack", "hole"}
 
     % Designed for dark crack and hole defects.
     T = adaptthresh(hz_roi, 0.40, "ForegroundPolarity", "dark");
@@ -47,7 +52,7 @@ if defectType == "dark"
     % Connect small gaps in the defect.
     hz_maskEvidence = imclose(hz_maskEvidence, strel("disk", 2));
 
-elseif defectType == "bright"
+  case {"cut", "print"}
 
     % Designed for bright cut and print defects.
     T = adaptthresh(hz_roi, 0.45, "ForegroundPolarity", "bright");
@@ -70,8 +75,9 @@ elseif defectType == "bright"
     % Connect nearby evidence.
     hz_maskEvidence = imclose(hz_maskEvidence, strel("disk", 2));
 
-else
-    error('defectType must be either "dark" or "bright".');
+  otherwise
+
+    error("Unsupported hazelnut defect type: %s", defectType);
 
 end
 
