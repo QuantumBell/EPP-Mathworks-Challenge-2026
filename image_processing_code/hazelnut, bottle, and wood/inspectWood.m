@@ -1,5 +1,8 @@
 function [wo_maskEvidence, evidence, wo_roi, wo_roiRGB, wo_overlay] = inspectWood(wo_img, defectType)
 
+% Convert AI label to a string for the switch statement.
+defectType = lower(string(defectType));
+
 % ---------- STEP 1 - STANDARDIZE THE IMAGE ----------
 
 % Standardize image size so classical masks and metrics are consistent.
@@ -39,7 +42,9 @@ wo_L = mat2gray(wo_L);
 % --> reduces tiny wood-grain fluctuations and noise before thresholding.
 wo_L = imgaussfilt(wo_L, 0.5);
 
-if defectType == "dark"
+switch defectType
+
+  case {"hole", "liquid"}
 
     % Detect regions darker than their local surroundings.
     T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "dark");
@@ -56,7 +61,7 @@ if defectType == "dark"
     % Connect nearby parts of the same defect.
     wo_maskEvidence = imclose(wo_maskEvidence, strel("disk", 2));
 
-elseif defectType == "scratch"
+  case "scratch"
 
     % Detect bright scratch regions relative to their surroundings.
     T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "bright");
@@ -69,8 +74,9 @@ elseif defectType == "scratch"
     % Connect nearby scratch fragments.
     wo_maskEvidence = imclose(wo_maskEvidence, strel("disk", 1));
 
-else
-    error('defectType must be either "dark" or "scratch".');
+  otherwise
+
+    error("Unsupported wood defect type: %s", defectType);
 end
 
 % ---------- CREATE RED EVIDENCE OVERLAY ----------
