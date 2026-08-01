@@ -6,13 +6,13 @@ close all;
 
 % NOTE: hz = hazelnut
 
-hzFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v3\hazelnut";
+hzFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v4\hazelnut";
 
 hz_failFolder = fullfile(hzFolder, "FAIL");
 
 % Select one defect image (crack, hole, cut, & print).
 hz_crackFolder = fullfile(hz_failFolder, "crack");
-hz_holeFolder = fullfile(hz_failFolder, "hole");
+hz_holeFolder = fullfile(hz_failFolder, "hole_hazel");
 hz_cutFolder = fullfile(hz_failFolder, "cut");
 hz_printFolder = fullfile(hz_failFolder, "print");
 
@@ -80,7 +80,7 @@ hz_printImg = readimage(hz_printImds, 1);
 
 % NOTE: bo = bottle
 
-boFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v3\bottle";
+boFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v4\bottle";
 
 bo_failFolder = fullfile(boFolder, "FAIL");
 
@@ -123,12 +123,12 @@ bo_smallImg = readimage(bo_smallImds, 7);
 
 % NOTE: wo = wood
 
-woFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v3\wood";
+woFolder = "C:\Users\Molly\OneDrive\Documents\MATLAB EPP\mvtec_anomaly_detection_USED_v4\wood";
 
 wo_failFolder = fullfile(woFolder, "FAIL");
 
 % Select one defect image (hole, liquid, & scratch).
-wo_holeFolder = fullfile(wo_failFolder, "hole");
+wo_holeFolder = fullfile(wo_failFolder, "hole_wood");
 wo_liquidFolder = fullfile(wo_failFolder, "liquid");
 wo_scratchFolder = fullfile(wo_failFolder, "scratch");
 
