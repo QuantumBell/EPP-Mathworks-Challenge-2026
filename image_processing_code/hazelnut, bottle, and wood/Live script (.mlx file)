@@ -34,67 +34,47 @@ hz_printImg = readimage(hz_printImds, 1);
 [hz_cutMask, hz_cutEvidence, hz_cutROI, hz_cutROIRGB, hz_cutOverlay] = inspectHazelnut(hz_cutImg, "bright");
 [hz_printMask, hz_printEvidence, hz_printROI, hz_printROIRGB, hz_printOverlay] = inspectHazelnut(hz_printImg, "bright");
 
-% Crack mask.
-figure;
-imshowpair(hz_crackROI, hz_crackMask, "montage");
-title("Hazelnut Crack: Image vs. Evidence Mask");
-
 % Crack overlay.
-figure;
-imshowpair(hz_crackROIRGB, hz_crackOverlay, "montage");
-title("Hazelnut Crack: ROI vs. Red Evidence Overlay");
-
-% Hole mask.
-figure;
-imshowpair(hz_holeROI, hz_holeMask, "montage");
-title("Hazelnut Hole: Image vs. Evidence Mask");
+%figure;
+%imshow(hz_crackOverlay)
+%title("Hazelnut Crack: Red Evidence Overlay");
 
 % Hole overlay.
-figure;
-imshowpair(hz_holeROIRGB, hz_holeOverlay, "montage");
-title("Hazelnut Hole: ROI vs. Red Evidence Overlay");
-
-% Cut mask.
-figure;
-imshowpair(hz_cutROI, hz_cutMask, "montage");
-title("Hazelnut Cut: Image vs. Evidence Mask");
+%figure;
+%imshow(hz_holeOverlay)
+%title("Hazelnut Hole: Red Evidence Overlay");
 
 % Cut overlay.
-figure;
-imshowpair(hz_cutROIRGB, hz_cutOverlay, "montage");
-title("Hazelnut Cut: ROI vs. Red Evidence Overlay");
-
-% Print mask.
-figure;
-imshowpair(hz_printROI, hz_printMask, "montage");
-title("Hazelnut Print: Image vs. Evidence Mask");
+%figure;
+%imshow(hz_cutOverlay)
+%title("Hazelnut Cut: Red Evidence Overlay");
 
 % Print overlay.
-figure;
-imshowpair(hz_printROIRGB, hz_printOverlay, "montage");
-title("Hazelnut Print: ROI vs. Red Evidence Overlay");
+%figure;
+%imshow(hz_printOverlay)
+%title("Hazelnut Print: Red Evidence Overlay");
 
 % Interpretable metrics for crack, hole, cut, & print:
 
-fprintf("\nHazelnut crack metrics:\n");
-fprintf("Number of suspicious regions: %d\n", hz_crackEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", hz_crackEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", hz_crackEvidence.areaRatio);
+%fprintf("\nHazelnut crack metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", hz_crackEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", hz_crackEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", hz_crackEvidence.areaRatio);
 
-fprintf("\nHazelnut hole metrics:\n");
-fprintf("Number of suspicious regions: %d\n", hz_holeEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", hz_holeEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", hz_holeEvidence.areaRatio);
+%fprintf("\nHazelnut hole metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", hz_holeEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", hz_holeEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", hz_holeEvidence.areaRatio);
 
-fprintf("\nHazelnut cut metrics:\n");
-fprintf("Number of suspicious regions: %d\n", hz_cutEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", hz_cutEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", hz_cutEvidence.areaRatio);
+%fprintf("\nHazelnut cut metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", hz_cutEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", hz_cutEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", hz_cutEvidence.areaRatio);
 
-fprintf("\nHazelnut print metrics:\n");
-fprintf("Number of suspicious regions: %d\n", hz_printEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", hz_printEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", hz_printEvidence.areaRatio);
+%fprintf("\nHazelnut print metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", hz_printEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", hz_printEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", hz_printEvidence.areaRatio);
 
 % -------------------------------------------------------------------- BOTTLE --------------------------------------------------------------------------------------
 
@@ -119,35 +99,25 @@ bo_smallImg = readimage(bo_smallImds, 7);
 [bo_largeMask, bo_largeEvidence, bo_largeROI, bo_largeROIRGB, bo_largeOverlay] = inspectBottle(bo_largeImg);
 [bo_smallMask, bo_smallEvidence, bo_smallROI, bo_smallROIRGB, bo_smallOverlay] = inspectBottle(bo_smallImg);
 
-% Broken_large mask.
-figure;
-imshowpair(bo_largeROIRGB, bo_largeMask, "montage");
-title("Bottle Broken Large: Image vs. Evidence Mask");
-
 % Broken_large overlay.
-figure;
-imshowpair(bo_largeROIRGB, bo_largeOverlay, "montage");
-title("Bottle Broken Large: ROI vs. Red Evidence Overlay");
-
-% Broken_small mask.
-figure;
-imshowpair(bo_smallROIRGB, bo_smallMask, "montage");
-title("Bottle Broken Small: Image vs. Evidence Mask");
+%figure;
+%imshow(bo_largeOverlay)
+%title("Bottle Broken Large: Red Evidence Overlay");
 
 % Broken_small overlay.
-figure;
-imshowpair(bo_smallROIRGB, bo_smallOverlay, "montage");
-title("Bottle Broken Small: ROI vs. Red Evidence Overlay");
+%figure;
+%imshow(bo_smallOverlay)
+%title("Bottle Broken Small: Red Evidence Overlay");
 
-fprintf("\nBottle broken_large metrics:\n");
-fprintf("Number of suspicious regions: %d\n", bo_largeEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", bo_largeEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", bo_largeEvidence.areaRatio);
+%fprintf("\nBottle broken_large metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", bo_largeEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", bo_largeEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", bo_largeEvidence.areaRatio);
 
-fprintf("\nBottle broken_small metrics:\n");
-fprintf("Number of suspicious regions: %d\n", bo_smallEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", bo_smallEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", bo_smallEvidence.areaRatio);
+%fprintf("\nBottle broken_small metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", bo_smallEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", bo_smallEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", bo_smallEvidence.areaRatio);
 
 % -------------------------------------------------------------------- WOOD --------------------------------------------------------------------------------------
 
@@ -177,47 +147,32 @@ wo_scratchImg = readimage(wo_scratchImds, 10);
 
 [wo_scratchMask, wo_scratchEvidence, wo_scratchROI, wo_scratchROIRGB, wo_scratchOverlay] = inspectWood(wo_scratchImg, "scratch");
 
-% Hole mask.
-figure;
-imshowpair(wo_holeROIRGB, wo_holeMask, "montage");
-title("Wood Hole: Image vs. Evidence Mask");
-
 % Hole overlay.
-figure;
-imshowpair(wo_holeROIRGB, wo_holeOverlay, "montage");
-title("Wood Hole: ROI vs. Red Evidence Overlay");
-
-% Liquid mask.
-figure;
-imshowpair(wo_liquidROIRGB, wo_liquidMask, "montage");
-title("Wood Liquid: Image vs. Evidence Mask");
+%figure;
+%imshow(wo_holeOverlay)
+%title("Wood Hole: Red Evidence Overlay");
 
 % Liquid overlay.
-figure;
-imshowpair(wo_liquidROIRGB, wo_liquidOverlay, "montage");
-title("Wood Liquid: ROI vs. Red Evidence Overlay");
-
-% Scratch mask.
-figure;
-imshowpair(wo_scratchROIRGB, wo_scratchMask, "montage");
-title("Wood Scratch: Image vs. Evidence Mask");
+%figure;
+%imshow(wo_liquidOverlay)
+%title("Wood Liquid: Red Evidence Overlay");
 
 % Scratch overlay.
-figure;
-imshowpair(wo_scratchROIRGB, wo_scratchOverlay, "montage");
-title("Wood Scratch: ROI vs. Red Evidence Overlay");
+%figure;
+%imshow(wo_scratchOverlay)
+%title("Wood Scratch: Red Evidence Overlay");
 
-fprintf("\nWood hole metrics:\n");
-fprintf("Number of suspicious regions: %d\n", wo_holeEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", wo_holeEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", wo_holeEvidence.areaRatio);
+%fprintf("\nWood hole metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", wo_holeEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", wo_holeEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", wo_holeEvidence.areaRatio);
 
-fprintf("\nWood liquid metrics:\n");
-fprintf("Number of suspicious regions: %d\n", wo_liquidEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", wo_liquidEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", wo_liquidEvidence.areaRatio);
+%fprintf("\nWood liquid metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", wo_liquidEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", wo_liquidEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", wo_liquidEvidence.areaRatio);
 
-fprintf("\nWood scratch metrics:\n");
-fprintf("Number of suspicious regions: %d\n", wo_scratchEvidence.numComponents);
-fprintf("Size of largest suspicious region: %d pixels\n", wo_scratchEvidence.maxArea);
-fprintf("Area ratio: %.4f\n", wo_scratchEvidence.areaRatio);
+%fprintf("\nWood scratch metrics:\n");
+%fprintf("Number of suspicious regions: %d\n", wo_scratchEvidence.numComponents);
+%fprintf("Size of largest suspicious region: %d pixels\n", wo_scratchEvidence.maxArea);
+%fprintf("Area ratio: %.4f\n", wo_scratchEvidence.areaRatio);
