@@ -1,6 +1,6 @@
 function [wo_maskEvidence, evidence, wo_roi, wo_roiRGB, wo_overlay] = inspectWood(wo_img, defectType)
 
-% Convert AI label to a string for the switch statement.
+% Convert AI classifier label to a string for the switch statement.
 defectType = lower(string(defectType));
 
 % ---------- STEP 1 - STANDARDIZE THE IMAGE ----------
@@ -10,47 +10,43 @@ classicalSize = [224 224];
 
 wo_standard = imresize(wo_img, classicalSize);
 
-% Convert standardized image to grayscale.
-wo_gray = rgb2gray(wo_standard);
-
 % ---------- STEP 2 - PREPROCESS THE IMAGE ----------
 
 % Fairly consistent lighting, so no lighting correction is needed.
 
-% Mild denoising.
-wo_denoise = imgaussfilt(wo_gray, 0.5);
+% Convert the RGB wood image to Lab color space.
+wo_lab = rgb2lab(wo_standard);
+
+% Extract the L channel, which represents lightness.
+% --> contains one brightness value per pixel.
+% --> can be displayed like a grayscale image.
+wo_L = wo_lab(:,:,1);
+
+% Scale lightness values from 0 to 1.
+% --> places the values in the standard intensity range.
+wo_L = mat2gray(wo_L);
+
+% Mildly smooth the lightness channel.
+% --> reduces small wood-grain fluctuations and noise.
+wo_roi = imgaussfilt(wo_L, 0.5);
 
 % ---------- STEP 3 - DEFINE A REGION OF INTEREST ----------
 
-% Wood fills the image with minimal clutter, so use the full image as the ROI.
-wo_roi = wo_denoise;
+% Wood fills the whole image, so no cropping is needed.
+% --> use the full processed image and full RGB image as the ROI
 wo_roiRGB = wo_standard;
 
 % ---------- STEP 4 - SEGMENT THE IMAGE ----------
 
-% Convert the RGB wood image to Lab color space.
-wo_lab = rgb2lab(wo_roiRGB);
-
-% Extract the L channel, which represents lightness.
-wo_L = wo_lab(:,:,1);
-
-% Scale lightness values from 0 to 1.
-% --> makes image easier to use with thresholding functions.
-wo_L = mat2gray(wo_L);
-
-% Mildly smooth the lightness channel.
-% --> reduces tiny wood-grain fluctuations and noise before thresholding.
-wo_L = imgaussfilt(wo_L, 0.5);
-
 switch defectType
 
-  case {"hole", "liquid"}
+  case {"hole_wood", "liquid"}
 
     % Detect regions darker than their local surroundings.
-    T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "dark");
+    T = adaptthresh(wo_roi, 0.35, "ForegroundPolarity", "dark");
 
     % Invert because darker pixels should become white evidence.
-    wo_maskEvidence = ~imbinarize(wo_L, T);
+    wo_maskEvidence = ~imbinarize(wo_roi, T);
 
     % Reduce long, thin vertical wood-grain responses.
     wo_maskEvidence = imopen(wo_maskEvidence, strel("line", 3, 0));
@@ -64,9 +60,9 @@ switch defectType
   case "scratch"
 
     % Detect bright scratch regions relative to their surroundings.
-    T = adaptthresh(wo_L, 0.35, "ForegroundPolarity", "bright");
+    T = adaptthresh(wo_roi, 0.35, "ForegroundPolarity", "bright");
 
-    wo_maskEvidence = imbinarize(wo_L, T);
+    wo_maskEvidence = imbinarize(wo_roi, T);
 
     % Remove small isolated responses.
     wo_maskEvidence = bwareaopen(wo_maskEvidence, 10);
