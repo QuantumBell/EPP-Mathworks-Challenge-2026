@@ -20,3 +20,5 @@
 7/31/26: Meet with team to create master function to integrate classifiers and single image processing and test it to ensure it runs. Discuss methodology for implementing system evaluation script.
 <br>
 8/3/26: Met with team to discuss submission process. Assigned roles for writing each section of the report based on what members had contributed to the project. Continued to implement the evidence overlay and metrics for the remaining objects. Established meeting times for finalization of the repository, and extra meeting times for members who have yet to finish implementing their portions of the project before the deadline.
+<br>
+8/5/26: Remove screw object from dataset to lessen workload on image processing team.
