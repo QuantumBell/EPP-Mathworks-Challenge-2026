@@ -3,7 +3,7 @@ function [hz_maskEvidence, evidence, hz_roi, hz_roiRGB, hz_overlay] = inspectHaz
 % NOTE: hz = hazelnut
 % This function inspects one hazelnut image at a time.
 
-% Convert AI label to a string for the switch statement.
+% Convert AI classifier label to a string for the switch statement.
 defectType = lower(string(defectType));
 
 % ---------- STEP 1 - STANDARDIZE THE IMAGE ----------
@@ -36,7 +36,7 @@ hz_roiRGB = imcrop(hz_standard, roiPosition);
 
 switch defectType
 
- case {"crack", "hole"}
+   case {"crack", "hole_hazel"}
 
     % Designed for dark crack and hole defects.
     T = adaptthresh(hz_roi, 0.40, "ForegroundPolarity", "dark");
