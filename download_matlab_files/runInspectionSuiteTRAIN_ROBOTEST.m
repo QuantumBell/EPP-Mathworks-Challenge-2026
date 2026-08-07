@@ -35,7 +35,7 @@
 % RAN
 
 clc;
-%{
+
 %To correctly partition data, create separate tables for training,
 % validation, and testing (avoids any missteps during random distribution of
 % data, such as every set contains each and every defect type)
