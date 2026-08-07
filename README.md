@@ -95,6 +95,8 @@ Be sure to read the comments at the top of each **Task 5** code section before r
 
 The results can be reproduced using either the provided pretrained networks or by training the networks again using the provided dataset and training scripts.
 
+Before reproducing the results, run **Task 1** to load and organize the dataset into the class labels and variables used throughout the Live Script.
+
 For **Task 2**, select images from the different part and defect categories in the `mvtec_anomaly_detection_USED_v5.zip` dataset and run the corresponding classical inspection sections. The program generates a binary evidence mask, then uses that mask to create and display a red evidence overlay along with the defect metrics for each selected image. Results will vary depending on the image selected because defect size, appearance, and location differ throughout the dataset.
 
 For **Task 3**, the pretrained-network option can be used to run the inspection system with the saved classifiers from a previous training run. Alternatively, the networks can be trained again using `runInspectionSuiteTRAIN.m`. After the classifier is ready, run the **“Task 3 Checkpoint: Combine outputs into a hybrid inspection result”** and select an image using the **Image to Inspect** button.
