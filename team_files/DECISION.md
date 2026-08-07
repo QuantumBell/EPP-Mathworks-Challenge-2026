@@ -22,3 +22,5 @@
 8/3/26: Met with team to discuss submission process. Assigned roles for writing each section of the report based on what members had contributed to the project. Continued to implement the evidence overlay and metrics for the remaining objects. Established meeting times for finalization of the repository, and extra meeting times for members who have yet to finish implementing their portions of the project before the deadline.
 <br>
 8/5/26: Remove screw object from dataset to lessen workload on image processing team.
+<br>
+8/6/26: Team works on their report during the meeting, showing off their finished sections and giving a summary and run-through of what their section does. Establish final submission time for all team members' work (an hour before the deadline). Wish everyone good luck in their future endeavors.
