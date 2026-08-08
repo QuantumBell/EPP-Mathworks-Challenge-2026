@@ -2,15 +2,15 @@
 
 ## Objective
 
-The objective of this project is to build an image-based manufacturing inspection system in MATLAB that can identify possible defects in a part and classify the part as PASS or FAIL. Classical image-processing methods are used to highlight suspicious regions and measure the detected defects, while a pretrained network is further trained using the defect images to classify each part as PASS or FAIL. The final system combines the AI prediction with a red evidence overlay and simple metrics to show what the program detected and help explain the inspection result.
+To build an image-based manufacturing inspection system in MATLAB that can identify possible defects in a part and classify the part as PASS or FAIL. Classical image-processing methods are used to highlight suspicious regions and measure the detected defects, while a pretrained network is further trained using the defect images to classify each part as PASS or FAIL. The final system combines the AI prediction with a red evidence overlay and simple metrics to show what the program detected and help explain the inspection result.
 
 ## How to Run the Code and Models
-
-Download all files in the `download_matlab_files` folder. All files must be in the same MATLAB directory, otherwise the live script cannot function.
+ 
+Download all the files under the `download_matlab_files` folder (except for .gitattributes, and make sure the Report Live Script is the most recent version). All files must be in the same MATLAB directory, otherwise the live script cannot function.
 
 Download and extract the `mvtec_anomaly_detection_USED_v5.zip` from the `image_data_set_info` folder. This is the dataset used for the program.
 
-Open the main MATLAB Live Script, `(REPORT) Live Script For ImageBasedDefectSystem [V1].mlx`.
+Open the main MATLAB Live Script, `(REPORT) Live Script For ImageBasedDefectSystem [V5].mlx`.
 
 ### Task 1: Explore and Organize Image Dataset
 
@@ -76,20 +76,20 @@ Be sure to read the comments at the top of each **Task 5** code section before r
 
 ## Required Toolboxes or Dependencies
 
-- Statistics and Machine Learning Toolbox
-- Reinforcement Learning Toolbox
-- Optimization Toolbox
-- Model Predictive Control Toolbox
-- MATLAB Coder
-- Parallel Computing Toolbox
-- MATLAB Compiler
-- MATLAB Compiler SDK
-- MATLAB Report Generator
-- Image Acquisition Toolbox
-- Image Processing Toolbox
-- Deep Learning Toolbox
-- Curve Fitting Toolbox
-- Deep Learning HDL Toolbox
+Statistics and Machine Learning Toolbox
+Reinforcement Learning Toolbox
+Optimization Toolbox
+Model Predictive Control Toolbox
+MATLAB Coder
+Parallel Computing Toolbox
+MATLAB Compiler
+MATLAB Compiler SDK
+MATLAB Report Generator
+Image Acquisition Toolbox
+Image Processing Toolbox
+Deep Learning Toolbox
+Curve Fitting Toolbox
+Deep Learning HDL Toolbox
 
 ## How to Reproduce your Results
 
@@ -106,3 +106,5 @@ The final system will display the PASS/FAIL prediction, confidence score, red ev
 For **Task 4**, run either the pretrained or training evaluation section. The program evaluates the inspection system on a batch of test images and produces a confusion matrix, yield and defect summaries, and examples of common failure cases. Using the pretrained option reproduces the results with the saved networks and test set, while the training option retrains the networks before evaluation.
 
 For **Task 5**, run either the pretrained or training robustness section. The program applies simulated image changes such as brightness, blur, or noise and reevaluates the inspection system. The results can then be compared with the original Task 4 results to see how accuracy and false-reject rates change under these variations.
+
+
